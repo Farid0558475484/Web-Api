@@ -20,11 +20,22 @@ namespace webApi.Controllers
             new(){Id=4,Name="Product4",SalePrice=444},
             new(){Id=5,Name="Product5",SalePrice=555}
         };
-        [HttpGet]
 
+        [HttpGet]
         public IActionResult GetAll()
         {
-            return Ok(products);
+            return StatusCode(200, products);
+            //return Ok(products);
+        }
+
+
+        //[Route("/{id}")]
+        [HttpGet("{id}")]
+        public IActionResult GetOne(int id)
+        { 
+            Product? product = products.FirstOrDefault(p => p.Id == id);
+                if (product == null) return NotFound();
+            return Ok(product);
         }
     }
 }
