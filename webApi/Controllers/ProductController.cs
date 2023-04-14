@@ -12,7 +12,7 @@ namespace webApi.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private List<Product> products = new()
+        private static List<Product> products = new()
         {
             new(){Id=1,Name="Product1",SalePrice=111},
             new(){Id=2,Name="Product2",SalePrice=222},
@@ -20,6 +20,7 @@ namespace webApi.Controllers
             new(){Id=4,Name="Product4",SalePrice=444},
             new(){Id=5,Name="Product5",SalePrice=555}
         };
+
 
         [HttpGet]
         public IActionResult GetAll()
@@ -36,6 +37,16 @@ namespace webApi.Controllers
             Product? product = products.FirstOrDefault(p => p.Id == id);
                 if (product == null) return NotFound();
             return Ok(product);
+        }
+
+
+
+        [HttpPost]
+        public IActionResult AddProduct(Product product)
+        {
+            products.Add(product);
+            return StatusCode(StatusCodes.Status201Created, product);
+
         }
     }
 }
